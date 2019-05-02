@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/main.css">
+  <title>Circular Puzzle v0.1</title>
+</head>
+<body>
+  <main>
+    <picture class="base">
+      <img src="./img/anduin.png" class="puzzle" alt="base" srcset="">
+    </picture>
+    <picture class="crop circle3" style='transform: rotate(90deg)'>
+      <img src="./img/anduin.png" class="puzzle" alt="anillo1" srcset="">
+    </picture>
+    <picture class="crop circle2" style='transform: rotate(45deg)'>
+      <img src="./img/anduin.png" class="puzzle" alt="anillo2" srcset="">
+    </picture>
+    <picture class="crop circle1" style='transform: rotate(0deg)'>
+      <img src="./img/anduin.png" class="puzzle" alt="anillo3" srcset="">
+    </picture>
+
+  </main>
+</body>
+<script>
+  let btns = document.querySelectorAll('picture.crop');
+  btns.forEach((btn) =>{
+    btn.addEventListener('click',(e)=>{
+      let ele = e.target.closest('.crop');
+      console.log(ele);
+      
+      let currDeg = ele.style.transform;
+      currDeg = currDeg.split('deg');
+      currDeg = currDeg[0];
+      currDeg = currDeg.split('(');
+      currDeg = currDeg[1];
+      console.log('CurrentDeg:_'+currDeg);
+      randDeg = [45,90,135];
+      function rand(min,max){
+        return Math.floor(Math.random()*(max-min+1)+min);
+      }
+      currDeg = Number(currDeg);
+      console.log('CurrentDeg:_',currDeg);
+      let randNum = rand(0,(randDeg.length)-1);
+      console.log('RandNum:_',randNum);
+      let newDeg = currDeg + ( randDeg[randNum] );
+      console.log('NewDeg:_',newDeg);
+      console.log(ele);
+      newDeg = newDeg > 360 ? newDeg - 360 : newDeg;
+      console.log('NewDeg:_',newDeg);
+      newDeg = 'rotate('+newDeg+'deg)';
+      console.log(ele.style.transform);
+      console.log(newDeg);
+      ele.style.transform = newDeg;
+      console.log(ele.style.transform);
+      console.log(ele);
+    });
+  })
+</script>
+</html>
