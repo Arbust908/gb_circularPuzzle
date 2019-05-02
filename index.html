@@ -12,51 +12,93 @@
     <picture class="base">
       <img src="./img/anduin.png" class="puzzle" alt="base" srcset="">
     </picture>
-    <picture class="crop circle3" style='transform: rotate(90deg)'>
+    <picture class="crop circle3" style='transform: rotate(180deg)'>
       <img src="./img/anduin.png" class="puzzle" alt="anillo1" srcset="">
     </picture>
     <picture class="crop circle2" style='transform: rotate(45deg)'>
       <img src="./img/anduin.png" class="puzzle" alt="anillo2" srcset="">
     </picture>
-    <picture class="crop circle1" style='transform: rotate(0deg)'>
+    <picture class="crop circle1" style='transform: rotate(135deg)'>
       <img src="./img/anduin.png" class="puzzle" alt="anillo3" srcset="">
     </picture>
 
   </main>
 </body>
+<script src="./js/cssDegGetter.js"></script>
+<script src="./js/phpRand.js"></script>
+<script src="./js/rotaThor.js"></script>
+<script src="./js/randRotaThor.js"></script>
+<script src="./js/miniModal.js"></script>
 <script>
   let btns = document.querySelectorAll('picture.crop');
-  btns.forEach((btn) =>{
-    btn.addEventListener('click',(e)=>{
-      let ele = e.target.closest('.crop');
-      console.log(ele);
-      
-      let currDeg = ele.style.transform;
-      currDeg = currDeg.split('deg');
-      currDeg = currDeg[0];
-      currDeg = currDeg.split('(');
-      currDeg = currDeg[1];
-      console.log('CurrentDeg:_'+currDeg);
-      randDeg = [45,90,135];
-      function rand(min,max){
-        return Math.floor(Math.random()*(max-min+1)+min);
-      }
-      currDeg = Number(currDeg);
-      console.log('CurrentDeg:_',currDeg);
-      let randNum = rand(0,(randDeg.length)-1);
-      console.log('RandNum:_',randNum);
-      let newDeg = currDeg + ( randDeg[randNum] );
-      console.log('NewDeg:_',newDeg);
-      console.log(ele);
-      newDeg = newDeg > 360 ? newDeg - 360 : newDeg;
-      console.log('NewDeg:_',newDeg);
-      newDeg = 'rotate('+newDeg+'deg)';
-      console.log(ele.style.transform);
-      console.log(newDeg);
-      ele.style.transform = newDeg;
-      console.log(ele.style.transform);
-      console.log(ele);
-    });
-  })
+  let btnCircle1 = document.querySelector('picture.circle1');
+  let btnCircle2 = document.querySelector('picture.circle2');
+  let btnCircle3 = document.querySelector('picture.circle3');
+  //let degrees = [15,30,45,60,75,90,105,120,135,150,165,180];
+  let degrees = [30,45,90,135,180];
+  //btns.forEach((btn) =>{
+  //  btn.addEventListener('click',(e)=>{
+  //    let ele = e.target.closest('.crop');
+  //    console.log(ele);
+  //    let arry = [15,30,45,60,75,90,105,120,135,150,165,180];
+  //    randRotaThor(ele, arry, true);
+  //  });
+  //});
+  function checkIfDone(){
+    let c1 = degGetter(btnCircle1) / 360;
+    let c2 = degGetter(btnCircle2) / 360;
+    let c3 = degGetter(btnCircle3) / 360;
+    function isInt(n) {
+      return n % 1 === 0;
+    }
+    if( isInt(c1) && isInt(c2) && isInt(c3) ){
+      newModal('success','You Win','You opened the door to The Everything');
+      setTimeout(() => {
+        let ele = document.querySelector('.new-modal');
+        ele.classList.remove('new-modal')
+      }, 500);
+    } else {
+      console.log('Not Done!');
+    }
+  }
+  /*   */
+  btnCircle1.addEventListener('click',(e)=>{
+    let ele = e.target.closest('.crop');
+    // console.log( 'Circle 1:'+ degGetter(btnCircle1) );
+    // console.log( 'Circle 3:'+ degGetter(btnCircle3) );
+    randRotaThor(btnCircle1, [45]);
+    randRotaThor(btnCircle3, [180]);
+    // console.log('Cambio:_');
+    // console.log( 'Circle 1:'+ degGetter(btnCircle1) );
+    // console.log( 'Circle 3:'+ degGetter(btnCircle3) );
+    checkIfDone()
+  });
+  /*   */
+  btnCircle2.addEventListener('click',(e)=>{
+    let ele = e.target.closest('.crop');
+    // console.log( 'Circle 2:'+ degGetter(btnCircle2) );
+    // console.log( 'Circle 3:'+ degGetter(btnCircle3) );
+    randRotaThor(btnCircle2, [90]);
+    randRotaThor(btnCircle3, [90]);
+    // console.log('Cambio:_');
+    // console.log( 'Circle 2:'+ degGetter(btnCircle2) );
+    // console.log( 'Circle 3:'+ degGetter(btnCircle3) );
+    checkIfDone()
+  });
+  /*   */
+  btnCircle3.addEventListener('click',(e)=>{
+    let ele = e.target.closest('.crop');
+    // console.log( 'Circle 1:'+ degGetter(btnCircle1) );
+    // console.log( 'Circle 2:'+ degGetter(btnCircle2) );
+    // console.log( 'Circle 3:'+ degGetter(btnCircle3) );
+    randRotaThor(btnCircle1, [180]);
+    randRotaThor(btnCircle2, [135]);
+    randRotaThor(btnCircle3, [180]);
+    // console.log('Cambio:_');
+    // console.log( 'Circle 1:'+ degGetter(btnCircle1) );
+    // console.log( 'Circle 2:'+ degGetter(btnCircle2) );
+    // console.log( 'Circle 3:'+ degGetter(btnCircle3) );
+    checkIfDone()
+  });
 </script>
 </html>
